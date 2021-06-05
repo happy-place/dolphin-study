@@ -1,0 +1,2 @@
+china-net=com.bigdata.dubbo.spi.service.impl.ChinaNetCDN
+qiyi=com.bigdata.dubbo.spi.service.impl.QiyiCDN

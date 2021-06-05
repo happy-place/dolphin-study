@@ -1,0 +1,3 @@
+dubbo=com.bigdata.dubbo.spi2.service.impl.DubboAdaptiveExt2
+cloud=com.bigdata.dubbo.spi2.service.impl.SpringCloudAdaptiveExt2
+thrift=com.bigdata.dubbo.spi2.service.impl.ThriftAdaptiveExt2
