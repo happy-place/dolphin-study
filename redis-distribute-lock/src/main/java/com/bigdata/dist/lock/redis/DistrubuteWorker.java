@@ -1,6 +1,7 @@
-package com.bigdata.dist.lock.zk;
+package com.bigdata.dist.lock.redis;
 
 import org.apache.log4j.Logger;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -8,34 +9,19 @@ public class DistrubuteWorker {
 
     private final Logger logger = Logger.getLogger(DistrubuteWorker.class);
 
-    private ZkLocker client;
+    private RedisLocker lock;
 
-    private String lockPath = "/mylock";
-    private String ephemeralPath = lockPath + "/master";
-
-    public DistrubuteWorker() {
-        this.client = new ZkLocker(
-                "hadoop01:2181,hadoop02:2181,hadoop03:2181",
-                1000,
-                3,
-                lockPath,
-                ephemeralPath
-        );
+    public DistrubuteWorker(String id) {
+        this.lock = new RedisLocker("mylock",id,5000);
     }
 
     public void start(){
         try {
-            client.tryLock();
+            lock.lock();
             runJob();
             addHook();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try {
-                client.releaseLock();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -57,7 +43,7 @@ public class DistrubuteWorker {
     public void addHook(){
         Runtime.getRuntime().addShutdownHook(new Thread(() ->{
             try {
-                client.close();
+                lock.unlock();
                 logger.info("shutdown zk client");
             } catch (Exception e) {
                 e.printStackTrace();

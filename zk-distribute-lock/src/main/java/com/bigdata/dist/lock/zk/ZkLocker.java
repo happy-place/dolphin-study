@@ -12,9 +12,9 @@ import org.apache.zookeeper.KeeperException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
-public class ZKMasterClient {
+public class ZkLocker {
 
-    private final Logger logger = Logger.getLogger(ZKMasterClient.class);
+    private final Logger logger = Logger.getLogger(ZkLocker.class);
 
     private InterProcessMutex lock;
 
@@ -26,7 +26,7 @@ public class ZKMasterClient {
     private String lockPath;
     private String ephemeralPath;
 
-    public ZKMasterClient(String zks,int baseSleepTimeMs, int maxRetries,String lockPath,String ephemeralPath) {
+    public ZkLocker(String zks, int baseSleepTimeMs, int maxRetries, String lockPath, String ephemeralPath) {
         this.lockPath = lockPath;
         this.ephemeralPath = ephemeralPath;
         this.retryPolicy = new ExponentialBackoffRetry(baseSleepTimeMs, maxRetries);

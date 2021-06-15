@@ -13,6 +13,7 @@
         <module>dubbo-spi1</module>
         <module>dubbo-spi2</module>
         <module>zk-distribute-lock</module>
+        <module>redis-distribute-lock</module>
     </modules>
 
     <parent>
